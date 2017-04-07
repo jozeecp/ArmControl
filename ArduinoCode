@@ -1,3 +1,8 @@
+/* Controlling a servo motor using a muscle sensor
+  By Jose Catarino
+    Adapted from Michal Rinott's Example
+*/
+
 #include <Servo.h>
 
 Servo myservo;  // create servo object to control a servo
@@ -14,7 +19,7 @@ int g = 0;
 int n = 0;
 
 void setup() {
-  Serial.begin(9600);
+  Serial.begin(9600);-
   myservo.attach(9);  // attaches the servo on pin 9 to the servo object
 }
 
@@ -30,6 +35,9 @@ void loop() {
   g1 = val;
   g = (g1 + g2 + g3 + g4 + g5) / 5; // average
   
+  
+    //The next module should only be uncommented to test gradual motion
+    /*
       // this next module increases the servo position 'n'  upon a postivie value 'g'
       if (g > 30)
         n += 3;
@@ -37,12 +45,12 @@ void loop() {
       // this is only to bring back the servo to original postion after it's been pushed all the way
       // out, and should be removed when the second Myoware sensor is added
       if (n > 560)
-        n = 0;
+        n = 0; */
   
-  myservo.write(n);                  // sets the servo position according to the scaled value
+  myservo.write(val);                  // sets the servo position according to the scaled value
   delay(50);                           // waits for the servo to get there
 
-  Serial.print(n);
+  Serial.print(val);
   Serial.print("   ");
   Serial.println(g);
 }
