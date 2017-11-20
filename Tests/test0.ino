@@ -18,8 +18,10 @@ Current Version
 
 Servo myservo;  // create servo object to control a servo
 
-int sensorPin = 0;  // analog pin used to connect the potentiometer
+int sensorPin = 0;  // analog pin used to connect the sensor
 int val;    // variable to read the value from the analog pin
+int potPin = 1; // pin for potentiometer
+int potVal; // raw value from potentiometer
 
 // values for the average function
 int g1 = 0;
@@ -38,11 +40,12 @@ void setup() {
 }
 
 void loop() {
+  potVal = analogRead(potPin);
   val = analogRead(sensorPin);         // reads the value of the sensor (value between 60 and 200)
   val = map(val, 60, 200, 0, 180);     // scale it to use it with the servo (value between 0 and 180)
 
   // test a
-  myservo.write(avgFilter(val)*gain);             // sets the servo position according to the scaled value
+  myservo.write(avgFilter(val)*potGain());  // sets the servo position according to the scaled value
   // test b
   //myservo.write(avgFilter(val*gain));
 
@@ -63,4 +66,9 @@ int avgFilter (int a) {
 
   // test c
   //return g * gain;
+}
+
+int potGain () {
+  potVal = map(potVal, a, b, 0, 9);
+  return 1 + potVal;
 }
