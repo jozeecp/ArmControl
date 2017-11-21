@@ -31,9 +31,6 @@ int g4 = 0;
 int g5 = 0;
 int g = 0;
 
-// gain variable to fine tune testing
-int gain = 1;
-
 void setup() {
   Serial.begin(9600);
   myservo.attach(9);  // attaches the servo on pin 9 to the servo object
