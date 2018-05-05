@@ -3,17 +3,18 @@ import processing.serial.*; // includes the serial object library
 Serial mySerial; // creates local serial object from serial library
 
 String myString = null; // a variable to collect serial data
-int nl = 10; // ASCII code for carage return to in serial
+int nl = 10; // ASCII code for nl to in serial
 float myVal; // float for storing converted ascii serial data
 
 void setup(){
-  size(200, 400);
+  size(255, 500);
   // link processing to serial port (correct one)
-  String myPort = Serial.list() [4]; // find correct serial port
+  String myPort = Serial.list() [0]; // find correct serial port
   mySerial = new Serial(this, myPort, 9600);
 }
 
 void draw() {
+  
   while (mySerial.available() > 0) {
     myString = mySerial.readStringUntil(nl); //STRIPs data of serial port
 

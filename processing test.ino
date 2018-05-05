@@ -1,14 +1,14 @@
 void setup() {
-  Serial.being(9600);
+  // initialize serial communication at 9600 bits per second:
+  Serial.begin(9600);
 }
 
+// the loop routine runs over and over again forever:
 void loop() {
-  // capture data in Arduino
-  int variable1 = int(random(100));
+  // read the input on analog pin 0:
+  int sensorValue = analogRead(A0);
+  // print out the value you read:
 
-    //put the data onto the serial port
-  Serial.println(variable);
-
-  delay(200);
-
+  Serial.println(map(sensorValue, 0, 1023, 0, 100));
+  delay(1);        // delay in between reads for stability
 }

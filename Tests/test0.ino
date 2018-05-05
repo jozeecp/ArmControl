@@ -22,6 +22,7 @@ int sensorPin = 0;  // analog pin used to connect the sensor
 int val;    // variable to read the value from the analog pin
 int potPin = 1; // pin for potentiometer
 int potVal; // raw value from potentiometer
+int potVal1;
 
 // values for the average function
 int g1 = 0;
@@ -33,22 +34,7 @@ int g = 0;
 
 void setup() {
   Serial.begin(9600);
-  myservo.attach(9);  // attaches the servo on pin 9 to the servo object
-}
-
-void loop() {
-  potVal = analogRead(potPin);
-  val = analogRead(sensorPin);         // reads the value of the sensor (value between 60 and 200)
-  val = map(val, 60, 200, 0, 180);     // scale it to use it with the servo (value between 0 and 180)
-
-  // test a
-  myservo.write(avgFilter(val)*potGain());  // sets the servo position according to the scaled value
-  // test b
-  //myservo.write(avgFilter(val*gain));
-
-  Serial.print(val);
-  Serial.print("   ");
-  Serial.println(g);
+  myservo.attach(10);  // attaches the servo on pin 9 to the servo object
 }
 
 // avgFilter(variable to average)
@@ -65,7 +51,32 @@ int avgFilter (int a) {
   //return g * gain;
 }
 
+
+
+
+void loop() {
+  potVal = analogRead(potPin);
+  val = analogRead(sensorPin);         // reads the value of the sensor (value between 60 and 200)
+  val = map(val, 0 + potGain(), 200 + potGain(), 0, 180);     // scale it to use it with the servo (value between 0 and 180)
+
+  // test a
+  myservo.write(avgFilter(val));  // sets the servo position according to the scaled value
+  // test b
+  //myservo.write(avgFilter(val*gain));
+
+  Serial.print("Raw Sensor Input: ");
+  Serial.print(val);
+  Serial.print("   ");
+  Serial.print("Servo Input: ");
+  Serial.print(avgFilter(val));
+  Serial.print("   ");
+  Serial.print("Pot Value: ");
+  Serial.println(potGain());
+
+  delay(15);
+}
+
 int potGain () {
-  potVal = map(potVal, a, b, 0, 9);
-  return 1 + potVal;
+  potVal1 = map(potVal, 0, 1023, 0, 800);
+  return potVal1;
 }
